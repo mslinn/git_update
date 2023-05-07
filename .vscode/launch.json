@@ -5,6 +5,18 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "args": [
+        "$work/ruby",
+      ],
+      "cwd": "${workspaceRoot}",
+      "name": "Debug update",
+      "program": "${workspaceRoot}/update.rb",
+      "showDebuggerOutput": false,
+      "request": "launch",
+      "type": "Ruby",
+      "useBundler": true,
+    },
+    {
       "cwd": "${workspaceRoot}",
       "name": "Attach rdebug-ide",
       "request": "attach",
@@ -25,7 +37,6 @@
       "program": "${workspaceRoot}/exe/rspec",
       "showDebuggerOutput": false,
       "request": "launch",
-      "see": "https://relishapp.com/rspec/rspec-core/docs/command-line",
       "type": "Ruby",
       "useBundler": true,
     },
@@ -38,7 +49,6 @@
       "name": "RSpec - all",
       "program": "${workspaceRoot}/exe/rspec",
       "request": "launch",
-      "see": "https://relishapp.com/rspec/rspec-core/docs/command-line",
       "showDebuggerOutput": false,
       "type": "Ruby",
       "useBundler": true,
