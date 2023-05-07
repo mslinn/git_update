@@ -39,6 +39,7 @@ def pull(repo, remote_name = 'origin')
   remote = repo.remotes[remote_name]
   refspec_str = 'refs/remotes/origin/master'
   begin
+    remote.check_connection(:fetch, credentials: @select_credentials)
     remote.fetch(refspec_str, credentials: @select_credentials)
   rescue Rugged::NetworkError => e
     puts e.full_message
