@@ -1,4 +1,5 @@
 require_relative 'util'
+require_relative 'pull'
 
 @threads = []
 
@@ -9,7 +10,7 @@ def process_dir(dir_name)
   end
 
   if Dir.exist? "#{dir_name}/.git"
-    update dir_name
+    update_via_rugged dir_name
     return
   end
 
@@ -19,7 +20,7 @@ def process_dir(dir_name)
   end
 end
 
-def update(dir_name)
+def update_via_cli(dir_name)
   Dir.chdir(dir_name) do
     @threads << Thread.new do
       puts "Updating #{dir_name}"
