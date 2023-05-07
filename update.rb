@@ -9,7 +9,7 @@ def process_dir(dir_name)
   end
 
   if Dir.exist? "#{dir_name}/.git"
-    @threads << Thread.new { update dir_name }
+    update dir_name
     return
   end
 
@@ -21,13 +21,17 @@ end
 
 def update(dir_name)
   Dir.chdir(dir_name) do
-    Updating "git pull #{dir_name}"
-    `git pull`
+    @threads << Thread.new do
+      puts "Updating #{dir_name}"
+      puts `git pull`.chomp
+    end
   end
 end
 
 abort "Error: no directory specified" if ARGV.empty?
 
-base = MslinnUtil.expand_env ARGV[0]
-process_dir MslinnUtil.deref_symlink(base).to_s
+ARGV.each do |arg|
+  base = MslinnUtil.expand_env arg
+  process_dir MslinnUtil.deref_symlink(base).to_s
+end
 @threads.each(&:join)
