@@ -38,7 +38,11 @@ end
 def pull(repo, remote_name = 'origin')
   remote = repo.remotes[remote_name]
   refspec_str = 'refs/remotes/origin/master'
-  remote.fetch(refspec_str, credentials: @select_credentials)
+  begin
+    remote.fetch(refspec_str, credentials: @select_credentials)
+  rescue Rugged::NetworkError => e
+    puts e.full_message
+  end
   remote_master_id = repo.ref(refspec_str).target
   merge_result, = repo.merge_analysis(remote_master_id)
 
