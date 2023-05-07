@@ -10,11 +10,12 @@ def process_dir(dir_name)
   end
 
   if Dir.exist? "#{dir_name}/.git"
+    puts "Updating #{dir_name}"
     update_via_rugged dir_name
     return
   end
 
-  puts "Processing #{dir_name}"
+  puts "Processing directory #{dir_name}"
   Dir["#{dir_name}/*"].each do |entry|
     process_dir(entry) if File.directory? entry
   end
