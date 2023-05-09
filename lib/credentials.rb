@@ -16,7 +16,7 @@ end
 
 def ssh_credentials(repo)
   Rugged::Credentials::SshKey.new(
-    username:   repo.config['user.name'],
+    username:   'git',
     passphrase: nil,
     publickey:  File.expand_path('~/.ssh/id_rsa.pub'), # TODO: figure out which cert to use
     privatekey: File.expand_path('~/.ssh/id_rsa')

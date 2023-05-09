@@ -6,6 +6,18 @@
   "configurations": [
     {
       "args": [
+        ".",
+      ],
+      "cwd": "${workspaceRoot}",
+      "name": "Debug check_connection",
+      "program": "${workspaceRoot}/lib/check_connection.rb",
+      "showDebuggerOutput": false,
+      "request": "launch",
+      "type": "Ruby",
+      "useBundler": true,
+    },
+    {
+      "args": [
         "$work/ruby",
       ],
       "cwd": "${workspaceRoot}",
