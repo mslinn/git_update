@@ -25,7 +25,7 @@ def merge(repo)
     message:    'Merged `origin/master` into `master`',
     author:     { name: "User", email: "example@test.com" },
     committer:  { name: "User", email: "example@test.com" },
-    update_ref: 'master'
+    update_ref: 'master',
   })
 end
 

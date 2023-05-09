@@ -33,6 +33,12 @@ Layout/LineLength:
 Layout/MultilineMethodCallIndentation:
   Enabled: false
 
+Layout/FirstArrayElementIndentation:
+  Enabled: false
+
+Layout/FirstHashElementIndentation:
+  Enabled: false
+
 Metrics/AbcSize:
   Max: 45
 
@@ -56,6 +62,9 @@ Naming/MemoizedInstanceVariableName:
   Enabled: false
 
 RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/FilePath:
   Enabled: false
 
 RSpec/MultipleExpectations:

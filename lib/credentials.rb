@@ -18,8 +18,8 @@ def ssh_credentials(repo)
   Rugged::Credentials::SshKey.new(
     username:   repo.config.username,
     passphrase: nil,
-    publickey:  File.expand_path("~/.ssh/id_rsa.pub"), # TODO: figure out which cert to use
-    privatekey: File.expand_path("~/.ssh/id_rsa")
+    publickey:  File.expand_path('~/.ssh/id_rsa.pub'), # TODO: figure out which cert to use
+    privatekey: File.expand_path('~/.ssh/id_rsa')
   )
 end
 
