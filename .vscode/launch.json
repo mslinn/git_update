@@ -10,7 +10,7 @@
       ],
       "cwd": "${workspaceRoot}",
       "name": "Debug update",
-      "program": "${workspaceRoot}/update.rb",
+      "program": "${workspaceRoot}/lib/update.rb",
       "showDebuggerOutput": false,
       "request": "launch",
       "type": "Ruby",

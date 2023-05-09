@@ -30,10 +30,12 @@ def update_via_cli(dir_name)
   end
 end
 
-abort "Error: no directory specified" if ARGV.empty?
+if $PROGRAM_NAME == __FILE__
+  abort "Error: no directory specified" if ARGV.empty?
 
-ARGV.each do |arg|
-  base = MslinnUtil.expand_env arg
-  process_dir MslinnUtil.deref_symlink(base).to_s
+  ARGV.each do |arg|
+    base = MslinnUtil.expand_env arg
+    process_dir MslinnUtil.deref_symlink(base).to_s
+  end
+  @threads.each(&:join)
 end
-@threads.each(&:join)
