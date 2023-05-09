@@ -9,12 +9,12 @@ require 'rugged'
       Rugged::Credentials::SshKeyFromAgent.new(username: 'git')
     rescue StandardError => e
       puts "SSH Agent not found, trying manual ssh config: #{e}"
-      ssh_credentials(repo)
+      ssh_credentials
     end
   end
 end
 
-def ssh_credentials(repo)
+def ssh_credentials
   Rugged::Credentials::SshKey.new(
     username:   'git',
     passphrase: nil,
