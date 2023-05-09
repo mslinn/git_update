@@ -6,7 +6,7 @@ base_fq = Pathname.new(base).realpath.to_s
 repo = Rugged::Repository.new base_fq
 puts repo.inspect
 remote = repo.remotes['origin']
-puts "remote.name=#{remote.name} remote.fetch_refspecs=#{remote.fetch_refspecs}"
+puts "remote.name=#{remote.name}, remote.url=#{remote.url}, remote.fetch_refspecs=#{remote.fetch_refspecs}"
 
 credentials = Rugged::Credentials::SshKey.new(
   username:   'git',
