@@ -3,21 +3,25 @@ require_relative 'credentials'
 
 abort "Error: Rugged was not built with ssh support" unless Rugged.features.include? :ssh
 
+# Just updates the default branch
 def pull(repo, remote_name = 'origin')
   remote = repo.remotes[remote_name]
-  refspec_str = 'refs/remotes/origin/master'
+  default_branch = repo.head.name.split('/')[-1]
+  refspec_str = "refs/remotes/#{remote_name}/#{default_branch}"
   begin
-    remote.check_connection(:fetch, credentials: @select_credentials)
+    # remote.check_connection(:fetch, credentials: @select_credentials)
     remote.fetch(refspec_str, credentials: @select_credentials)
   rescue Rugged::NetworkError => e
-    puts e.full_message
+    puts "  Error: #{e.full_message}"
   end
+  puts "  Error: repo.ref(#{refspec_str}) for #{remote} is nil" if repo.ref(refspec_str).nil?
   remote_master_id = repo.ref(refspec_str).target
   merge_result, = repo.merge_analysis(remote_master_id)
 
   case merge_result
   when :up_to_date
     # Nothing needs to be done
+    puts "  Repo at '#{repo.workdir}' was already up to date."
 
   when :fastforward
     repo.checkout_tree(repo.get(remote_master_id))
@@ -40,5 +44,5 @@ end
 
 def update_via_rugged(dir_name)
   repo = Rugged::Repository.new dir_name
-  pull(repo)
+  pull repo
 end
