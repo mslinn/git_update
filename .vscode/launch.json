@@ -18,7 +18,7 @@
     },
     {
       "args": [
-        "$work/ruby",
+        "$work",
       ],
       "cwd": "${workspaceRoot}",
       "name": "Debug update",

@@ -2,6 +2,7 @@
 
 source 'https://rubygems.org'
 
+gem 'concurrent-ruby'
 gem 'rugged'
 
 group :development do
