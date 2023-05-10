@@ -3,6 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'concurrent-ruby'
+gem 'rainbow'
 gem 'rugged'
 
 group :development do

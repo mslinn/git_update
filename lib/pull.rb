@@ -1,7 +1,10 @@
+require 'rainbow/refinement'
 require 'rugged'
 require_relative 'credentials'
 
-abort "Error: Rugged was not built with ssh support" unless Rugged.features.include? :ssh
+using Rainbow
+
+abort "Error: Rugged was not built with ssh support".red unless Rugged.features.include? :ssh
 
 # Just updates the default branch
 def pull(repo, remote_name = 'origin')
@@ -12,16 +15,16 @@ def pull(repo, remote_name = 'origin')
     # remote.check_connection(:fetch, credentials: @select_credentials)
     remote.fetch(refspec_str, credentials: @select_credentials)
   rescue Rugged::NetworkError => e
-    puts "  Error: #{e.full_message}"
+    puts "  Error: #{e.full_message}".red
   end
-  abort "Error: repo.ref(#{refspec_str}) for #{remote} is nil" if repo.ref(refspec_str).nil?
+  abort "Error: repo.ref(#{refspec_str}) for #{remote} is nil".red if repo.ref(refspec_str).nil?
   remote_master_id = repo.ref(refspec_str).target
   merge_result, = repo.merge_analysis(remote_master_id)
 
   case merge_result
   when :up_to_date
     # Nothing needs to be done
-    puts "  Repo at '#{repo.workdir}' was already up to date."
+    puts "  Repo at '#{repo.workdir}' was already up to date.".blue.bright
 
   when :fastforward
     repo.checkout_tree(repo.get(remote_master_id))
@@ -31,14 +34,14 @@ def pull(repo, remote_name = 'origin')
 
   when :normal
     repo.merge(remote_master_id)
-    raise "Problem: merging updates for #{repo.name} encountered conflicts" if repo.index.conflicts?
+    raise "Problem: merging updates for #{repo.name} encountered conflicts".red if repo.index.conflicts?
 
     user = repo.default_signature
     tree = repo.index.write_tree
     repo.create_commit 'HEAD', user, user, 'Merge', tree, [repo.head.target, remote_master_id]
     repo.state_cleanup
   else
-    raise AssertionError 'Unknown merge analysis result'
+    raise AssertionError 'Unknown merge analysis result'.red
   end
 end
 

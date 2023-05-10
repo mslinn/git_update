@@ -1,8 +1,11 @@
+require 'rainbow/refinement'
 require 'rugged'
+
+using Rainbow
 
 @select_credentials = proc do |url, username, allowable_credential_types|
   # allowable_credential_types is an array of symbols that often contains :ssh_key.
-  puts "  Computing credentials for #{username} at #{url}; allowable credential types are: #{allowable_credential_types}"
+  puts "  Computing credentials for #{username} at #{url}; allowable credential types are: #{allowable_credential_types}".blue.bright
   if url.start_with? 'https'
     user_password_credentials
   elsif url.start_with? 'git@github.com'
