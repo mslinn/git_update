@@ -9,11 +9,12 @@ remote = repo.remotes['origin']
 puts "remote.name=#{remote.name}, remote.url=#{remote.url}, remote.fetch_refspecs=#{remote.fetch_refspecs}"
 
 credentials = Rugged::Credentials::SshKey.new(
-  # username:   'git',
-  # passphrase: nil,
+  username:   'git',
+  passphrase: nil,
   privatekey: File.expand_path('~/.ssh/id_rsa'),
   publickey:  File.expand_path('~/.ssh/id_rsa.pub')
 )
+# credentials = Rugged::Credentials::SshKeyFromAgent.new(username: 'git')
 puts credentials.inspect
 
 success = remote.check_connection(:fetch, credentials: credentials)
