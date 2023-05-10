@@ -1,5 +1,7 @@
 require 'rugged'
 
+abort "Error: Rugged was not built with ssh support" unless Rugged.features.include? :ssh
+
 def fetch(repo)
   remote = repo.remotes['origin']
   remote.connect(:fetch) do |r|
