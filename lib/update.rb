@@ -5,7 +5,12 @@ require_relative 'pull'
 # libgit2 v1.6.3 is not completely threadsafe, and fetch/merge is definitely not threadsafe
 # A pool size of 1 allows the main thread (running process_dir) and one update thread to run concurrently
 @pool = Concurrent::FixedThreadPool.new(1, max_queue: 1000)
+@max_queue_length = 0
 puts "#{@pool.max_queue} tasks are allowed to wait in the thread pool's work queue."
+
+def max(a, b)
+  a > b ? a : b
+end
 
 def process_dir(dir_name)
   if File.exist? "#{dir_name}/.ignore"
@@ -19,6 +24,7 @@ def process_dir(dir_name)
       update_via_rugged dir_name
     end
     puts "  #{@pool.queue_length} tasks are currently waiting in the thread pool's work queue."
+    @max_queue_length = @pool.queue_length if @pool.queue_length > @max_queue_length
     return
   end
 
@@ -45,4 +51,5 @@ if $PROGRAM_NAME == __FILE__
     process_dir MslinnUtil.deref_symlink(base).to_s
   end
   puts "#{@pool.completed_task_count} tasks were executed by the thread pool."
+  puts "A maximum of #{@max_queue_length} tasks waited in the queue."
 end
