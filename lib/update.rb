@@ -49,7 +49,8 @@ if $PROGRAM_NAME == __FILE__
     base = MslinnUtil.expand_env arg
     process_dir MslinnUtil.deref_symlink(base).to_s
   end
-  @pool.wait_for_termination
-  puts "#{@pool.completed_task_count} tasks were executed by the thread pool.".black.bg(:green)
-  puts "A maximum of #{@max_queue_length} tasks waited in the queue.".black.bg(:green)
+  at_exit do
+    puts "#{@pool.completed_task_count} tasks were executed by the thread pool.".black.bg(:green)
+    puts "A maximum of #{@max_queue_length} tasks waited in the queue.".black.bg(:green)
+  end
 end
