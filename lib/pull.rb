@@ -1,6 +1,8 @@
 require 'rugged'
 require_relative 'credentials'
 
+abort "Error: Rugged was not built with ssh support" unless Rugged.features.include? :ssh
+
 def pull(repo, remote_name = 'origin')
   remote = repo.remotes[remote_name]
   refspec_str = 'refs/remotes/origin/master'
