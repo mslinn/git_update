@@ -14,7 +14,7 @@ def pull(repo, remote_name = 'origin')
   rescue Rugged::NetworkError => e
     puts "  Error: #{e.full_message}"
   end
-  puts "  Error: repo.ref(#{refspec_str}) for #{remote} is nil" if repo.ref(refspec_str).nil?
+  abort "Error: repo.ref(#{refspec_str}) for #{remote} is nil" if repo.ref(refspec_str).nil?
   remote_master_id = repo.ref(refspec_str).target
   merge_result, = repo.merge_analysis(remote_master_id)
 
