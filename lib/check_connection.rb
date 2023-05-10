@@ -1,6 +1,8 @@
 require 'pathname'
 require 'rugged'
 
+abort "Error: Rugged was not built with ssh support" unless Rugged.features.include? :ssh
+
 base = ARGV[0] || '.'
 base_fq = Pathname.new(base).realpath.to_s
 repo = Rugged::Repository.new base_fq
