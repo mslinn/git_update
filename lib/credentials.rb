@@ -32,7 +32,7 @@ class GitUpdate
     proc do |url, username, allowable_credential_types|
       # allowable_credential_types is an array of symbols that often contains :ssh_key or :username.
       puts "  Computing credentials for #{username} at #{url}; allowable credential types are: #{allowable_credential_types}".blue.bright
-      if url.start_with?('https') # && allowable_credential_types.include?(:plaintext)
+      if url.start_with?('http://', 'https://') # && allowable_credential_types.include?(:plaintext)
         # The values of username and password are ignored for public repos on GitHub, GitLab, Bitbucket, etc.
         # However, the parameters must be provided even though the values are ignored
         # See https://learn.microsoft.com/en-us/azure/devops/repos/git/set-up-credential-managers

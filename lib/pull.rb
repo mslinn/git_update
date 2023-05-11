@@ -11,13 +11,17 @@ class GitUpdate
   # Just updates the default branch
   def pull(repo, remote_name = 'origin') # rubocop:disable Metrics/AbcSize, Metrics/MethodLength
     remote = repo.remotes[remote_name]
+    unless remote.respond_to? :url
+      puts "  Remote '#{remote_name}' has no url defined. Skipping this repository."
+      return
+    end
     puts "  remote.url=#{remote.url}".yellow
     default_branch = repo.head.name.split('/')[-1]
     refspec_str = "refs/remotes/#{remote_name}/#{default_branch}"
     begin
       success = remote.check_connection(:fetch, credentials: select_credentials)
       unless success
-        puts "  Error: remote.check_connection failed".red
+        puts "  Error: remote.check_connection failed.".red
         return
       end
       remote.fetch(refspec_str, credentials: select_credentials)
@@ -40,7 +44,8 @@ class GitUpdate
       repo.head.set_target(remote_master_id)
 
     when :normal
-      repo.merge(remote_master_id)
+      # See https://www.pygit2.org/merge.html#pygit2.Repository.merge
+      repo.merge(remote_master_id) #pygit2 has this method, but rugged does not
       raise "Problem: merging updates for #{repo.name} encountered conflicts".red if repo.index.conflicts?
 
       user = repo.default_signature
