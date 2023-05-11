@@ -4,6 +4,8 @@ require 'rugged'
 class GitUpdate
   using Rainbow
 
+  # URLs starting with 'https://' might not be called for credentials
+  #
   # Allowable credential types for libgit2:
   #   :plaintext       - A vanilla user/password request
   #   :ssh_key         - An SSH key-based authentication request
@@ -26,33 +28,35 @@ class GitUpdate
   # See https://github.com/libgit2/rugged/blob/v1.6.3/lib/rugged/credentials.rb
   # and https://github.com/libgit2/rugged/blob/v1.6.3/ext/rugged/rugged_cred.c#L127-L130
 
-  @select_credentials = proc do |url, username, allowable_credential_types|
-    # allowable_credential_types is an array of symbols that often contains :ssh_key or :username.
-    puts "  Computing credentials for #{username} at #{url}; allowable credential types are: #{allowable_credential_types}".blue.bright
-    if url.start_with?('https') # && allowable_credential_types.include?(:plaintext)
-      # The values of username and password are ignored for public repos on GitHub, GitLab, Bitbucket, etc.
-      # However, the parameters must be provided even though the values are ignored
-      # See https://learn.microsoft.com/en-us/azure/devops/repos/git/set-up-credential-managers
-      Rugged::Credentials::UserPassword.new(username: '', password: '')
-    elsif url.start_with?('git@', 'ssh://') && allowable_credential_types.include?(:ssh_key)
-      begin
-        Rugged::Credentials::SshKey.new(
-          username:   'git',
-          passphrase: nil,
-          publickey:  File.expand_path('~/.ssh/id_rsa.pub'), # TODO: figure out which cert to use
-          privatekey: File.expand_path('~/.ssh/id_rsa')
-        )
-      rescue StandardError => e
-        puts "  SshKey credentials failed, trying ssh agent: #{e.full_message}".blue.bright
+  def select_credentials
+    proc do |url, username, allowable_credential_types|
+      # allowable_credential_types is an array of symbols that often contains :ssh_key or :username.
+      puts "  Computing credentials for #{username} at #{url}; allowable credential types are: #{allowable_credential_types}".blue.bright
+      if url.start_with?('https') # && allowable_credential_types.include?(:plaintext)
+        # The values of username and password are ignored for public repos on GitHub, GitLab, Bitbucket, etc.
+        # However, the parameters must be provided even though the values are ignored
+        # See https://learn.microsoft.com/en-us/azure/devops/repos/git/set-up-credential-managers
+        Rugged::Credentials::UserPassword.new(username: '', password: '')
+      elsif url.start_with?('git@', 'ssh://') && allowable_credential_types.include?(:ssh_key)
         begin
-          Rugged::Credentials::SshKeyFromAgent.new(username: 'git')
+          Rugged::Credentials::SshKey.new(
+            username:   'git',
+            passphrase: nil,
+            publickey:  File.expand_path('~/.ssh/id_rsa.pub'), # TODO: figure out which cert to use
+            privatekey: File.expand_path('~/.ssh/id_rsa')
+          )
         rescue StandardError => e
-          puts "Ssh agent failed: #{e.full_message}".red
-          raise e
+          puts "  SshKey credentials failed, trying ssh agent: #{e.full_message}".blue.bright
+          begin
+            Rugged::Credentials::SshKeyFromAgent.new(username: 'git')
+          rescue StandardError => e
+            puts "Ssh agent failed: #{e.full_message}".red
+            raise e
+          end
         end
+      else
+        puts "  Error: Unknown credential types: #{allowable_credential_types}".red
       end
-    else
-      puts "  Error: Unknown credential types: #{allowable_credential_types}".red
     end
   end
 end

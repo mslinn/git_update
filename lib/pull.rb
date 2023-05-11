@@ -15,12 +15,12 @@ class GitUpdate
     default_branch = repo.head.name.split('/')[-1]
     refspec_str = "refs/remotes/#{remote_name}/#{default_branch}"
     begin
-      success = remote.check_connection(:fetch, credentials: @select_credentials)
+      success = remote.check_connection(:fetch, credentials: select_credentials)
       unless success
         puts "  Error: remote.check_connection failed".red
         return
       end
-      remote.fetch(refspec_str, credentials: @select_credentials)
+      remote.fetch(refspec_str, credentials: select_credentials)
     rescue Rugged::NetworkError => e
       puts "  Error: #{e.full_message}".red
     end
