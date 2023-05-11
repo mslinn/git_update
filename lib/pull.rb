@@ -4,7 +4,8 @@ require_relative 'credentials'
 
 using Rainbow
 
-abort "Error: Rugged was not built with ssh support".red unless Rugged.features.include? :ssh
+abort "Error: Rugged was not built with ssh support. Please see https://www.mslinn.com/git/4400-rugged.html".red \
+  unless Rugged.features.include? :ssh
 
 # Just updates the default branch
 def pull(repo, remote_name = 'origin')
@@ -48,4 +49,6 @@ end
 def update_via_rugged(dir_name)
   repo = Rugged::Repository.new dir_name
   pull repo
+rescue StandardError
+  puts "Ignoring #{dir_name} due to error.".red
 end

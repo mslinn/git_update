@@ -19,10 +19,11 @@
     {
       "args": [
         "$work",
+        "$sites"
       ],
       "cwd": "${workspaceRoot}",
-      "name": "Debug update",
-      "program": "${workspaceRoot}/lib/update.rb",
+      "name": "Debug git_update.rb",
+      "program": "${workspaceRoot}/lib/git_update.rb",
       "showDebuggerOutput": false,
       "request": "launch",
       "type": "Ruby",
