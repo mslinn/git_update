@@ -49,6 +49,6 @@ end
 def update_via_rugged(dir_name)
   repo = Rugged::Repository.new dir_name
   pull repo
-rescue StandardError
-  puts "Ignoring #{dir_name} due to error.".red
+rescue StandardError => e
+  puts "Ignoring #{dir_name} due to error: .#{e.full_message}".red
 end

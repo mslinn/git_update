@@ -25,7 +25,7 @@ using Rainbow
     # However, the parameters must be provided even though the values are ignored
     # See https://learn.microsoft.com/en-us/azure/devops/repos/git/set-up-credential-managers
     Rugged::Credentials::UserPassword.new(username: '', password: '')
-  elsif url.start_with?('git@') && allowable_credential_types.include?(:ssh_key)
+  elsif url.start_with?('git@', 'ssh://') && allowable_credential_types.include?(:ssh_key)
     begin
       Rugged::Credentials::SshKey.new(
         username:   'git',
