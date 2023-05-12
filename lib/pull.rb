@@ -1,6 +1,7 @@
 require 'rainbow/refinement'
 require 'rugged'
 require_relative 'credentials'
+require_relative 'repository'
 
 class GitUpdate
   using Rainbow
