@@ -49,7 +49,7 @@ module Rugged
     #     * minimal. Take extra time to find minimal diff
     def merge
       raise TypeError("expected oid (string or <Oid>) got #{type(id)}") \
-        if not isinstance(id, (str, Oid))
+        unless isinstance(id, (str, Oid))
 
       id = self[id].id
       c_id = ffi.new("git_oid *")
