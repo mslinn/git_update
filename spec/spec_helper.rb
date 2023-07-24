@@ -1,3 +1,4 @@
+require 'jekyll'
 require_relative '../lib/pull'
 
 RSpec.configure do |config|

@@ -1,6 +1,6 @@
 require_relative 'lib/git_update/version'
 
-Gem::Specification.new do |spec| # rubocop:disable Metrics/BlockLength
+Gem::Specification.new do |spec|
   github = 'https://github.com/mslinn/git_update'
 
   spec.authors = ['Mike Slinn']
