@@ -7,7 +7,7 @@ gem 'rainbow'
 gem 'rugged'
 
 group :development do
-  gem 'debase', '0.2.5.beta2', require: false
+  gem 'debug', '>= 1.0.0', require: false
   gem 'irb'
   gem 'ruby-debug-ide', require: false
   gem 'rubocop', require: false
