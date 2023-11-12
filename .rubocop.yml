@@ -7,7 +7,7 @@ require:
 AllCops:
   Exclude:
       - vendor/**/*
-      - exe/**/*
+      - binstub/**/*
       - Gemfile*
       - Rakefile
   NewCops: enable

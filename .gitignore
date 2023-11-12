@@ -1,10 +1,10 @@
-Gemfile.lock
 .idea/
 /.bundle/
 /.yardoc
 /_yardoc/
 /coverage/
 /doc/
-/exe/
+/binstub/
 /pkg/
 /spec/reports/
+Gemfile.lock

@@ -8,12 +8,11 @@
       "args": [
         ".",
       ],
-      "cwd": "${workspaceRoot}",
+      "debugPort": "0",
       "name": "Debug check_connection",
-      "program": "${workspaceRoot}/lib/check_connection.rb",
-      "showDebuggerOutput": false,
+      "script": "${workspaceRoot}/lib/check_connection.rb",
       "request": "launch",
-      "type": "Ruby",
+      "type": "rdbg",
       "useBundler": true,
     },
     {
@@ -21,23 +20,35 @@
         "$work",
         "$sites"
       ],
-      "cwd": "${workspaceRoot}",
+      "debugPort": "0",
       "name": "Debug git_update.rb",
-      "program": "${workspaceRoot}/lib/git_update.rb",
-      "showDebuggerOutput": false,
+      "script": "${workspaceRoot}/lib/git_update.rb",
       "request": "launch",
-      "type": "Ruby",
+      "type": "rdbg",
       "useBundler": true,
     },
     {
-      "cwd": "${workspaceRoot}",
-      "name": "Attach rdebug-ide",
+      "debugPort": "0",
+      "name": "Attach rdbg",
       "request": "attach",
-      "remoteHost": "localhost",
-      "remotePort": "1234",
-      "remoteWorkspaceRoot": "/",
-      "showDebuggerOutput": true,
-      "type": "Ruby",
+      "type": "rdbg",
+    },
+    {
+      "name": "Attach with ruby_lsp",
+      "request": "attach",
+      "type": "ruby_lsp",
+    },
+    {
+      "args": [
+        "-I",
+        "${workspaceRoot}"
+      ],
+      "debugPort": "0",
+      "name": "RSpec - all",
+      "request": "launch",
+      "script": "${workspaceRoot}/binstub/rspec",
+      "type": "rdbg",
+      "useBundler": true,
     },
     {
       "args": [
@@ -45,26 +56,11 @@
         "${workspaceRoot}",
         "${file}"
       ],
-      "cwd": "${workspaceRoot}",
+      "debugPort": "0",
       "name": "RSpec - active spec file only",
-      "program": "${workspaceRoot}/exe/rspec",
-      "showDebuggerOutput": false,
       "request": "launch",
-      "type": "Ruby",
+      "script": "${workspaceRoot}/binstub/rspec",
+      "type": "rdbg",
       "useBundler": true,
-    },
-    {
-      "args": [
-        "-I",
-        "${workspaceRoot}"
-      ],
-      "cwd": "${workspaceRoot}",
-      "name": "RSpec - all",
-      "program": "${workspaceRoot}/exe/rspec",
-      "request": "launch",
-      "showDebuggerOutput": false,
-      "type": "Ruby",
-      "useBundler": true,
-    }
-  ]
+    }  ]
 }

@@ -9,7 +9,7 @@ gem 'rugged'
 group :development do
   gem 'debug', '>= 1.0.0', require: false
   gem 'irb'
-  gem 'ruby-debug-ide', require: false
+  gem 'rake'
   gem 'rubocop', require: false
   gem 'rubocop-md', require: false
   gem 'rubocop-performance', require: false
