@@ -1,4 +1,5 @@
-require 'concurrent'
+require 'etc'
+require 'parallel'
 require 'rainbow/refinement'
 require_relative 'git_update/version'
 require_relative 'util'
@@ -8,9 +9,17 @@ class GitUpdate
   using Rainbow
 
   def initialize
-    # libgit2 v1.6.3 is not completely threadsafe, and fetch/merge is definitely not threadsafe
-    # A fixed pool size of 1 allows the main thread (running process_dir)
-    # and one update thread to run concurrently
+    # libgit2 v1.6.3 is not completely threadsafe, and fetch/merge is definitely not threadsafe.
+    # Git-pull is also not threadsafe, so it needs to run in its own processes.
+    # A fixed pool size allows the main thread (running process_dir)
+    # and several update threads to run concurrently
+    @max_processes = Etc.nprocessors > 1 ? Etc.nprocessors - 1 : 1
+    puts "#{@max_processes} processes can be launched"
+
+    Parallel.each(['a','b','c'], in_processes: @max_processes) do |one_letter|
+      SomeClass.expensive_calculation(one_letter)
+    end
+
     @pool = Concurrent::FixedThreadPool.new(1, max_queue: 1000)
     @max_queue_length = 0
     puts "#{@pool.max_queue} tasks are allowed to wait in the thread pool's work queue.".blue.bright

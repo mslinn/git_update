@@ -2,10 +2,6 @@
 
 source 'https://rubygems.org'
 
-gem 'concurrent-ruby'
-gem 'rainbow'
-gem 'rugged'
-
 group :development do
   gem 'debug', '>= 1.0.0', require: false
   gem 'irb'

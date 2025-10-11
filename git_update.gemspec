@@ -38,7 +38,7 @@ Gem::Specification.new do |spec|
   spec.summary = 'Installs the git-update command, which updates git directory trees.'
   spec.version = GitUpdateVersion::VERSION
 
-  spec.add_dependency 'concurrent'
+  spec.add_dependency 'parallel'
   spec.add_dependency 'rainbow'
   spec.add_dependency 'rugged'
 end
